@@ -1,15 +1,12 @@
--- ============================================
 -- VUA-SEN307 Lab 6: Aggregate Functions, Grouping and Subqueries
--- Name: YOUR FULL NAME      Matric: YOUR MATRIC NUMBER
--- ============================================
--- Before use: replace vug_sen_24_11799 with your own matric number (USE line),
--- and fill in your name and matric above.
+-- Name: Ogbobe Uchechukwu Marian     Matric: vug_sen_24_11799;
+
 -- Run ONE query at a time: click inside it and press Ctrl + Enter.
 
 USE sen307_vug_sen_24_11799;
 
 
--- Task 1: Students enrolled in each course, including courses with zero students
+-- Task 1
 SELECT c.course_code, c.course_title, COUNT(e.student_id) AS total_students
 FROM Course c
 LEFT JOIN Enrolment e ON c.course_id = e.course_id
@@ -22,7 +19,7 @@ ORDER BY total_students DESC, c.course_code;
 -- row itself and wrongly give 1.
 
 
--- Task 2: Courses with more than a given number of students (HAVING)
+-- Task 2: 
 -- Threshold 3
 SELECT c.course_code, c.course_title, COUNT(e.student_id) AS total_students
 FROM Course c
@@ -52,7 +49,7 @@ ORDER BY total_students DESC, c.course_code;
 -- than 7 keep only SEN307, which has 8 students.
 
 
--- Task 3: Average number of courses per student, including students with zero courses
+-- Task 3
 -- Step 1: courses per student
 SELECT s.student_id, s.full_name, COUNT(e.course_id) AS course_count
 FROM Student s
@@ -75,7 +72,7 @@ FROM (
 -- 21 students it should be about 1.90.
 
 
--- Task 4 (non-correlated subquery): Students who are not enrolled in any course
+-- Task 4 
 SELECT student_id, matric_no, full_name
 FROM Student
 WHERE student_id NOT IN (SELECT student_id FROM Enrolment)
@@ -88,8 +85,7 @@ ORDER BY full_name;
 -- return no rows at all.
 
 
--- Task 5 (correlated subquery): For each department, the student with the most
--- enrolments (ties allowed)
+-- Task 5 
 SELECT d.dept_name, s.full_name,
        (SELECT COUNT(*) FROM Enrolment e WHERE e.student_id = s.student_id) AS courses
 FROM Student s
